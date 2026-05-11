@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gideon Chukwu — Mobile Software Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg-elev: #12121a;
+    --bg-card: #16161f;
+    --border: #23232e;
+    --border-strong: #2e2e3d;
+    --text: #e8e8ed;
+    --text-dim: #a0a0b0;
+    --text-muted: #6b6b7a;
+    --accent: #7c5cff;
+    --accent-2: #00d4aa;
+    --accent-glow: rgba(124, 92, 255, 0.25);
+    --gradient: linear-gradient(135deg, #7c5cff 0%, #00d4aa 100%);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  /* Background grid + glow */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, var(--accent-glow), transparent),
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 100% 100%, 60px 60px, 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Navigation */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: rgba(10, 10, 15, 0.7);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 0;
+  }
+
+  .nav-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--text);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .logo-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gradient);
+    box-shadow: 0 0 12px var(--accent);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+  }
+
+  /* Main container */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  section {
+    padding: 6rem 0 3rem;
+    scroll-margin-top: 80px;
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 0 4rem;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 100px;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    width: fit-content;
+    margin-bottom: 2rem;
+    background: rgba(124, 92, 255, 0.05);
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-2);
+    box-shadow: 0 0 8px var(--accent-2);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .hero h1 {
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 .gradient {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero p {
+    font-size: 1.2rem;
+    color: var(--text-dim);
+    max-width: 640px;
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
+
+  .btn-primary {
+    background: var(--gradient);
+    color: white;
+    box-shadow: 0 4px 20px var(--accent-glow);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 28px var(--accent-glow);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    border-color: var(--border-strong);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    background: rgba(124, 92, 255, 0.05);
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1.5rem;
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+    max-width: 720px;
+  }
+
+  .stat-num {
+    font-size: 2rem;
+    font-weight: 700;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-top: 0.4rem;
+  }
+
+  /* Section headings */
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .section-title {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+
+  .section-desc {
+    color: var(--text-dim);
+    max-width: 640px;
+    margin-bottom: 3rem;
+    font-size: 1.05rem;
+  }
+
+  /* About */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  @media (max-width: 768px) {
+    .about-grid { grid-template-columns: 1fr; }
+  }
+
+  .about-text p {
+    color: var(--text-dim);
+    margin-bottom: 1.2rem;
+    line-height: 1.8;
+  }
+
+  .about-text strong { color: var(--text); font-weight: 600; }
+
+  .about-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+  }
+
+  .about-card h3 {
+    font-size: 1rem;
+    margin-bottom: 1.2rem;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .about-card h3::before {
+    content: '▸';
+    color: var(--accent);
+  }
+
+  .focus-list {
+    list-style: none;
+  }
+
+  .focus-list li {
+    padding: 0.6rem 0;
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    border-bottom: 1px dashed var(--border);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .focus-list li:last-child { border-bottom: none; }
+
+  .focus-list span:last-child {
+    color: var(--accent-2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+  }
+
+  /* Experience timeline */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 12px;
+    bottom: 12px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+  }
+
+  .job {
+    position: relative;
+    padding-bottom: 3rem;
+  }
+
+  .job:last-child { padding-bottom: 0; }
+
+  .job::before {
+    content: '';
+    position: absolute;
+    left: -2rem;
+    top: 8px;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 12px var(--accent-glow);
+  }
+
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .job-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .job-period {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  .job-company {
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+
+  .job-points {
+    list-style: none;
+  }
+
+  .job-points li {
+    color: var(--text-dim);
+    padding: 0.5rem 0 0.5rem 1.4rem;
+    position: relative;
+    line-height: 1.7;
+    font-size: 0.95rem;
+  }
+
+  .job-points li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 1.2rem;
+    width: 8px;
+    height: 1px;
+    background: var(--accent-2);
+  }
+
+  /* Skills */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+
+  .skill-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.2s;
+  }
+
+  .skill-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .skill-card h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .skill-card h4 .icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: rgba(124, 92, 255, 0.1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    color: var(--accent);
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+  }
+
+  /* Highlights */
+  .highlights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.2rem;
+    margin-bottom: 3rem;
+  }
+
+  .highlight {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.8rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .highlight::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gradient);
+    opacity: 0.7;
+  }
+
+  .highlight-num {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+
+  .highlight-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .highlight-desc {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  /* Contact */
+  .contact-card {
+    background: linear-gradient(135deg, rgba(124, 92, 255, 0.08), rgba(0, 212, 170, 0.05));
+    border: 1px solid var(--border-strong);
+    border-radius: 16px;
+    padding: 3rem;
+    text-align: center;
+  }
+
+  @media (max-width: 640px) {
+    .contact-card { padding: 2rem 1.5rem; }
+  }
+
+  .contact-card h2 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .contact-card p {
+    color: var(--text-dim);
+    max-width: 480px;
+    margin: 0 auto 2rem;
+  }
+
+  .contact-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 0;
+    margin-top: 4rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  footer .mono { color: var(--accent); }
+
+  /* Animations on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-container">
+    <a href="#" class="logo">
+      <span class="logo-dot"></span>
+      Gideon Chukwu
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-badge">Available for new opportunities</div>
+    <h1>
+      Building <span class="gradient">mobile-first</span><br>
+      fintech experiences<br>
+      that scale.
+    </h1>
+    <p>
+      I'm Gideon — a Mobile Software Engineer with 5+ years architecting high-performance
+      Android, Flutter, and Kotlin Multiplatform applications for fintech, payments,
+      and crypto. Currently leading mobile engineering at FairMoney.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn btn-primary">
+        Get in touch
+        <span>→</span>
+      </a>
+      <a href="https://github.com/" target="_blank" rel="noreferrer" class="btn btn-secondary">
+        View GitHub
+      </a>
+    </div>
+
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">5+</div>
+        <div class="stat-label">Years of experience</div>
+      </div>
+      <div>
+        <div class="stat-num">4</div>
+        <div class="stat-label">Fintech products shipped</div>
+      </div>
+      <div>
+        <div class="stat-num">1M+</div>
+        <div class="stat-label">Users impacted</div>
+      </div>
+      <div>
+        <div class="stat-num">∞</div>
+        <div class="stat-label">PRs reviewed</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="reveal">
+    <div class="section-label">01 / About</div>
+    <h2 class="section-title">A bit about me</h2>
+
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          I'm a results-driven mobile engineer specializing in <strong>native Android</strong>
+          development with Java and Kotlin, and <strong>cross-platform</strong> solutions
+          using Flutter and Kotlin Multiplatform (KMP).
+        </p>
+        <p>
+          My career has been rooted in <strong>fintech</strong> — from EMV-compliant POS terminals
+          at Itex, to a crypto exchange overhaul at Bundle (Binance), to leading the Alerzo Pay POS
+          rollout, and now architecting savings products at <strong>FairMoney</strong>.
+        </p>
+        <p>
+          I care deeply about clean architecture, performance, mentoring teammates,
+          and turning complex business requirements into intuitive mobile experiences.
+        </p>
+      </div>
+
+      <div class="about-card">
+        <h3>Current focus</h3>
+        <ul class="focus-list">
+          <li><span>Role</span><span>Lead Mobile Engineer</span></li>
+          <li><span>Company</span><span>FairMoney MFB</span></li>
+          <li><span>Squad</span><span>Savings</span></li>
+          <li><span>Stack</span><span>Kotlin · KMP</span></li>
+          <li><span>Location</span><span>Nigeria 🌍</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- HIGHLIGHTS -->
+  <section id="impact" class="reveal">
+    <div class="section-label">02 / Impact</div>
+    <h2 class="section-title">Selected highlights</h2>
+    <p class="section-desc">A snapshot of outcomes I've delivered across the products I've worked on.</p>
+
+    <div class="highlights-grid">
+      <div class="highlight">
+        <div class="highlight-num">↓</div>
+        <div class="highlight-title">Reduced startup time</div>
+        <div class="highlight-desc">
+          Strategic refactoring of FairMoney's Android app significantly reduced cold start
+          time and crash rates — directly improving retention.
+        </div>
+      </div>
+      <div class="highlight">
+        <div class="highlight-num">KMP</div>
+        <div class="highlight-title">Cross-platform migration</div>
+        <div class="highlight-desc">
+          Spearheaded migration of key features to Kotlin Multiplatform, enabling shared
+          business logic between Android and iOS.
+        </div>
+      </div>
+      <div class="highlight">
+        <div class="highlight-num">4×</div>
+        <div class="highlight-title">Team leadership</div>
+        <div class="highlight-desc">
+          Led a team of four Android engineers at Alerzo, building Alerzo Pay POS for Aisino
+          terminals from scratch.
+        </div>
+      </div>
+      <div class="highlight">
+        <div class="highlight-num">EMV</div>
+        <div class="highlight-title">Payments compliance</div>
+        <div class="highlight-desc">
+          Shipped EMV-compliant POS apps integrating MasterCard, Visa, Verve, NIBSS,
+          SANEF, and GTB across Nigeria's payment rails.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="reveal">
+    <div class="section-label">03 / Experience</div>
+    <h2 class="section-title">Where I've worked</h2>
+    <p class="section-desc">A timeline of the roles, teams, and products I've helped build.</p>
+
+    <div class="timeline">
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-title">Lead Software Engineer</div>
+          <div class="job-period">May 2024 — Present</div>
+        </div>
+        <div class="job-company">FairMoney Microfinance Bank</div>
+        <ul class="job-points">
+          <li>Architected and delivered new features that expanded the savings product portfolio and enhanced user financial management capabilities.</li>
+          <li>Optimized performance through strategic refactoring — reducing app startup time and crash rates, lifting retention.</li>
+          <li>Spearheaded migration of key features to Kotlin Multiplatform (KMP), enabling code sharing between Android and iOS.</li>
+          <li>Lead Android development within the Savings squad — driving delivery and mentoring engineers via code reviews and technical guidance.</li>
+          <li>Maintain the FairMoney Android app — ensuring stability, security, and compliance with fintech industry standards.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-title">Lead Software Engineer</div>
+          <div class="job-period">Nov 2021 — Apr 2024</div>
+        </div>
+        <div class="job-company">Alerzo Limited</div>
+        <ul class="job-points">
+          <li>Led a team of 4 Android developers in building the Alerzo Pay POS app for Aisino Android terminals.</li>
+          <li>Architected the app from the ground up using Clean Architecture and MVVM with Kotlin, creating a scalable, maintainable codebase.</li>
+          <li>Implemented GitLab CI/CD pipelines for automated builds and deployments, reducing release time and human error.</li>
+          <li>Enforced quality standards through systematic pull request reviews, fostering knowledge sharing across the team.</li>
+          <li>Delivered a production-ready POS solution compliant with financial transaction standards on specialized Android hardware.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-title">Mobile Application Developer — Contract</div>
+          <div class="job-period">Dec 2021 — Dec 2022</div>
+        </div>
+        <div class="job-company">Bundle Africa (Binance)</div>
+        <ul class="job-points">
+          <li>Led the comprehensive overhaul of Bundle's crypto exchange mobile app in Flutter, rebuilding the platform from the ground up.</li>
+          <li>Architected a modular, testable Flutter codebase using Clean Architecture and MVVM, enabling rapid feature iteration.</li>
+          <li>Shipped critical features for buying, selling, and managing crypto assets — supporting Bundle's growth as a leading African exchange.</li>
+          <li>Maintained 24/7 reliability through proactive bug resolution and continuous optimization on time-sensitive crypto flows.</li>
+          <li>Partnered with product and backend to adapt to evolving regulatory and market demands in the crypto space.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-title">Android Developer (POS)</div>
+          <div class="job-period">Oct 2019 — Nov 2021</div>
+        </div>
+        <div class="job-company">Itex Integrated Services Limited</div>
+        <ul class="job-points">
+          <li>Developed secure EMV-compliant Android POS apps for MasterCard, Visa, and Verve across merchant terminals.</li>
+          <li>Integrated the NIBSS Socket service with secure client-server protocols for encrypted financial transactions across Nigeria.</li>
+          <li>Built SANEF and GTB REST API integrations enabling agent-assisted account opening for any Nigerian bank from POS terminals.</li>
+          <li>Built robust payment solutions in Java/Kotlin with MVVM and Room — optimizing for security, performance, and resilience.</li>
+          <li>Applied Material Design and Android best practices to create agent-friendly UIs that reduced training time.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="reveal">
+    <div class="section-label">04 / Toolbox</div>
+    <h2 class="section-title">Technical skills</h2>
+    <p class="section-desc">The languages, frameworks, and libraries I reach for to ship reliable mobile software.</p>
+
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h4><span class="icon">⌘</span>Languages</h4>
+        <div class="skill-tags">
+          <span class="tag">Kotlin</span>
+          <span class="tag">Java</span>
+          <span class="tag">Dart</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <h4><span class="icon">▲</span>Mobile Frameworks</h4>
+        <div class="skill-tags">
+          <span class="tag">Android SDK</span>
+          <span class="tag">Kotlin Multiplatform</span>
+          <span class="tag">Flutter</span>
+          <span class="tag">Jetpack Compose</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <h4><span class="icon">⊞</span>Architecture</h4>
+        <div class="skill-tags">
+          <span class="tag">Clean Architecture</span>
+          <span class="tag">MVVM</span>
+          <span class="tag">System Design</span>
+          <span class="tag">TDD</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <h4><span class="icon">↔</span>Networking</h4>
+        <div class="skill-tags">
+          <span class="tag">Retrofit</span>
+          <span class="tag">OkHttp</span>
+          <span class="tag">Ktor</span>
+          <span class="tag">REST</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <h4><span class="icon">▣</span>Persistence</h4>
+        <div class="skill-tags">
+          <span class="tag">Room</span>
+          <span class="tag">Realm DB</span>
+          <span class="tag">SQLite</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <h4><span class="icon">◆</span>Jetpack</h4>
+        <div class="skill-tags">
+          <span class="tag">LiveData</span>
+          <span class="tag">ViewModel</span>
+          <span class="tag">ViewBinding</span>
+          <span class="tag">DataBinding</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <h4><span class="icon">◉</span>Media</h4>
+        <div class="skill-tags">
+          <span class="tag">Glide</span>
+          <span class="tag">Picasso</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <h4><span class="icon">⎇</span>Tooling &amp; CI/CD</h4>
+        <div class="skill-tags">
+          <span class="tag">Git</span>
+          <span class="tag">GitHub</span>
+          <span class="tag">GitLab CI</span>
+          <span class="tag">Code Review</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <h4><span class="icon">$</span>Domains</h4>
+        <div class="skill-tags">
+          <span class="tag">Fintech</span>
+          <span class="tag">POS / EMV</span>
+          <span class="tag">Crypto</span>
+          <span class="tag">E-commerce</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education" class="reveal">
+    <div class="section-label">05 / Education</div>
+    <h2 class="section-title">Education</h2>
+
+    <div class="about-card" style="max-width: 640px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap: 0.5rem;">
+        <div>
+          <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem;">B.Sc Computer Science</div>
+          <div style="color: var(--accent);">Federal University of Agriculture, Abeokuta (FUNAAB)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="reveal">
+    <div class="contact-card">
+      <div class="section-label" style="justify-content:center; display:inline-flex;">06 / Contact</div>
+      <h2>Let's build something great.</h2>
+      <p>
+        Open to mobile engineering roles, technical leadership opportunities,
+        and interesting fintech / payments collaborations. Always happy to chat.
+      </p>
+      <div class="contact-actions">
+        <a href="mailto:chuksgid.dev@gmail.com" class="btn btn-primary">
+          chuksgid.dev@gmail.com
+        </a>
+        <a href="https://github.com/" target="_blank" rel="noreferrer" class="btn btn-secondary">
+          GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span>© <span id="year"></span> Gideon Chukwu · Crafted with </span><span class="mono">&lt;code/&gt;</span>
+</footer>
+
+<script>
+  // Year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
